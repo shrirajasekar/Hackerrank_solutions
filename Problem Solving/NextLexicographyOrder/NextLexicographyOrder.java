@@ -31,8 +31,6 @@ public class NextLexicographyOrder {
                     char pivotChar = s.charAt(pivot);
                     s.setCharAt(pivot, s.charAt(j));
                     s.setCharAt(j, pivotChar);
-                    // w = w.substring(0, pivot - 1) + w.charAt(j) + w.substring(pivot + 1, j - 1) + w.charAt(pivot)
-                    //         + w.substring(j + 1);
                     // ----- pivot --- j ----
                     // ----- j ---- pivot ----
                     break;
@@ -72,6 +70,4 @@ public class NextLexicographyOrder {
     }
 }
 
-public enum Solution {
 
-}
