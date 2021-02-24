@@ -16,20 +16,20 @@ public class QueensAttackPositionsEmptyBoard {
         }
         // Find folded coordinates
         int folded_r, folded_c;
-        int maxAttackPositions;
+        int totalAttackPositions;
         folded_r = (n - r + 1);
         folded_c = (n - c + 1);
-        // Find the Maximum possible number of Attack Positions of the Queen
+        // Find the totalimum possible number of Attack Positions of the Queen
         // from Folded coordinates
         if (folded_c < folded_r) {
             // Folded co-ord is to the left of the 'L' shaped region of same attacking power
-            maxAttackPositions = (n - 1) * 3 + (folded_r - 2) * 2; // Arithmetic progression
+            totalAttackPositions = (n - 1) * 3 + (folded_r - 2) * 2; // Arithmetic progression
         } else {
             // Folded co-ord is to the right of the 'L' shaped region of same attacking
             // power
-            maxAttackPositions = (n - 1) * 3 + (folded_r - 1) * 2; // Arithmetic progression
+            totalAttackPositions = (n - 1) * 3 + (folded_r - 1) * 2; // Arithmetic progression
         }
-        return maxAttackPositions;
+        return totalAttackPositions;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
