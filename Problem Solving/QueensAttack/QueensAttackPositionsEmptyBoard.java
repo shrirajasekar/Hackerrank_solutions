@@ -6,9 +6,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-public class QueensAttackPositionsNoObs {
+public class QueensAttackPositionsEmptyBoard {
 
-    // Find Queens Attack Position without considering any Obstacles
+    // Find Queens Attack Position without considering any Obstacles / On an empty Board
     static int queensAttack(int n, int r_q, int c_q) {
         if (r_q > n || c_q > n) {
             System.out.println("Invalid input");
