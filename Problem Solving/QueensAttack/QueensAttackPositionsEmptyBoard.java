@@ -19,14 +19,14 @@ public class QueensAttackPositionsEmptyBoard {
         int totalAttackPositions;
         folded_r_q = (n - r_q + 1);
         folded_c_q = (n - c_q + 1);
-        // Find the totalimum possible number of Attack Positions of the Queen
-        // from Folded coordinates
+        // Map Folded Co-ordinatess  
+        // to
+        // total Attack Positions of the Queen
         if (folded_c_q < folded_r_q) {
-            // Folded co-ord is to the left of the 'L' shaped region of same attacking power
+            // Folded co-ord is to the left of the elbow in a row
             totalAttackPositions = (n - 1) * 3 + (folded_r_q - 2) * 2; // Arithmetic progression
         } else {
-            // Folded co-ord is to the right of the 'L' shaped region of same attacking
-            // power
+            // Folded co-ord is in the base of the 'L' shaped region of same Attacking powers
             totalAttackPositions = (n - 1) * 3 + (folded_r_q - 1) * 2; // Arithmetic progression
         }
         return totalAttackPositions;
