@@ -18,10 +18,10 @@ public class QueensAttackPositionsEmptyBoard {
         // Find folded coordinates
         int folded_r_q = r_q, folded_c_q = c_q;
         int totalAttackPositions;
-        if (!(r_q <= n / 2)) {
+        if (r_q > n / 2) {
             folded_r_q = (n - r_q + 1);
         }
-        if (!(c_q <= n / 2)) {
+        if (c_q > n / 2) {
             folded_c_q = (n - c_q + 1);
         }
 
