@@ -11,7 +11,15 @@ public class QueensAttackIIProblem {
     // Complete the queensAttack function below.
     static int queensAttack(int n, int k, int r_q, int c_q, int[][] obstacles) {
         int totalAttackPositions = 0;
-        List<String> obstaclesUnique = new ArrayList<String>();
+        ArrayList<Integer> northObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> northEastObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> eastObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> southEastObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> southObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> southWestObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> westObstacles = new ArrayList<Integer>();
+        ArrayList<Integer> northWestObstacles = new ArrayList<Integer>();
+
         String iObstacle = "";
         // **** Find total Attack positions on an Empty Board for the given position
         // ****
@@ -43,28 +51,23 @@ public class QueensAttackIIProblem {
         }
         // **** For each Obstacle ****
         for (int i = 0; i < obstacles.length; i++) {
-            iObstacle = Integer.toString(obstacles[i][0]) + " " + Integer.toString(obstacles[i][1]);
-            // If Obstacle Position already evaluated - SKIP
-            if (!obstaclesUnique.contains(iObstacle)) {
-                obstaclesUnique.add(iObstacle);
                 // **** Check if its really an Obstacle ****
                 // If Same row or column as Queen - Obstacle
                 if (r_q == obstacles[i][0]) {
                     if (obstacles[i][1] < c_q) {
-                        // If Obstacle is to the left of the Queen
-                        totalAttackPositions = totalAttackPositions - obstacles[i][1];
+                        // West
+                        westObstacles.add(obstacles[i][1]);
                     } else {
-                        // The Obstacle is to the right of the Queen
-                        totalAttackPositions = totalAttackPositions - n - obstacles[i][1] - 1;
+                        // East
+                        eastObstacles.add(obstacles[i][1]);
                     }
-
                 } else if (c_q == obstacles[i][1]) {
                     if (obstacles[i][0] < r_q) {
-                        // If Obstacle is to the South of the Queen
-                        totalAttackPositions = totalAttackPositions - obstacles[i][0];
+                        // South
+                        southObstacles.add(obstacles[i][0]);
                     } else {
-                        // The Obstacle is to the North of the Queen
-                        totalAttackPositions = totalAttackPositions - n - obstacles[i][0] - 1;
+                        // North
+                        northObstacles.add(obstacles[i][0]);
                     }
                 }
                 // If Obstacle falls on the left diagonal \ path of the Queen
@@ -72,56 +75,143 @@ public class QueensAttackIIProblem {
                 else if ((obstacles[i][0] + obstacles[i][1]) == (r_q + c_q)) {
                     // If obstacle is on the second quadrant to the Queen
                     if (obstacles[i][0] > r_q && obstacles[i][1] < c_q) {
-                        // Reduce blocks along Second Quadrant + row,- col from Obstacle to End of Board
-                        if ((n - obstacles[i][0]) <= (obstacles[i][1] - 1)) {
-                            totalAttackPositions = totalAttackPositions - n - obstacles[i][0] + 1;
-                        } else {
-                            totalAttackPositions = totalAttackPositions - obstacles[i][1];
-                        }
-
-                    }
-                    // If obstacle is on the third quadrant to the Queen
-                    else if (obstacles[i][0] < r_q && obstacles[i][1] > c_q) {
-                        // Reduce blocks along Fourth Quadrant - row,+ col from Obstacle to End of Board
-                        if ((obstacles[i][0] - 1) <= (n - obstacles[i][1])) {
-                            totalAttackPositions = totalAttackPositions - obstacles[i][0];
-                        } else {
-                            totalAttackPositions = totalAttackPositions - n - obstacles[i][1] + 1;
-                        }
+                        // North West
+                        // Storing only col position
+                        northWestObstacles.add(obstacles[i][1]);
+                    } else if (obstacles[i][0] < r_q && obstacles[i][1] > c_q) {
+                        // South East
+                        southEastObstacles.add(obstacles[i][1]);
                     }
                 }
                 // If Obstacle falls on the right diagonal / path of the Queen
                 // If col - row values are equal then the positions fall on right diagonal
                 else if ((obstacles[i][1] - obstacles[i][0]) == (c_q - r_q)) {
-                    // If Obstacle is on the First Quadrant of Queen
                     if (obstacles[i][0] > r_q && obstacles[i][1] > c_q) {
-                        // Reduce blocks along on First Quadrant + row, +col from Obstacle to End of
-                        // Board
-                        if ((n - obstacles[i][0]) <= (n - obstacles[i][1])) {
-                            totalAttackPositions = totalAttackPositions - n - obstacles[i][0] - 1;
-                        } else {
-                            totalAttackPositions = totalAttackPositions - n - obstacles[i][1] - 1;
-                        }
+                        // North East - Storing rows
+                        northEastObstacles.add(obstacles[i][0]);
+                    } else if (obstacles[i][0] < r_q && obstacles[i][1] < c_q) {
+                        // South West
+                        southWestObstacles.add(obstacles[i][0]);
                     }
-                    // If Obstacle is on the Third Quadrant of Queen
-                    else if (obstacles[i][0] < r_q && obstacles[i][1] < c_q) {
-                        // Reduce blocks along third Quadrant - row, - col from Obstacle to End of Board
-                        if ((obstacles[i][0] - 1) <= (obstacles[i][1])) {
-                            totalAttackPositions = totalAttackPositions - obstacles[i][0];
-                        } else {
-                            totalAttackPositions = totalAttackPositions - obstacles[i][1];
-                        }
-                    }
+                }
+        }
+        // Compute Obstacle Impact of closest Obstacle from
+        // NORTH
+        if (!northObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q,
+                    Collections.min(northObstacles), c_q);
+        }
+        // SOUTH
+        if (!southObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q,
+                    Collections.max(southObstacles), c_q);
+        }
+        // WEST
+        if (!westObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q, r_q,
+                    Collections.max(westObstacles));
+        }
+        // EAST
+        if (!eastObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q, r_q,
+                    Collections.min(eastObstacles));
+        }
+        // NORTHEAST - First Quadrant - (c_o - r_o == c_q - r_q)
+        if (!northEastObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q,
+                    Collections.min(northEastObstacles), (c_q - r_q + Collections.min(northEastObstacles)));
+        }
+        // SOUTHWEST - Third Quadrant - (c_o - r_o == c_q - r_q)
+        if (!southWestObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q,
+                    Collections.max(southWestObstacles), (c_q - r_q + Collections.max(southWestObstacles)));
+        }
+        // NORTHWEST - Second Quadrant - (r_o + c_o == r_q + c_q)
+        if (!northWestObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q,
+                    (r_q + c_q - Collections.max(northWestObstacles)), Collections.max(northWestObstacles));
+        }
+        // SOUTHEAST - Fourth Quadrant - (r_o + c_o == r_q + c_q)
+        if (!southEastObstacles.isEmpty()) {
+            totalAttackPositions = computeObstacleImpact(n, totalAttackPositions, r_q, c_q,
+                    (r_q + c_q - Collections.min(southEastObstacles)), Collections.min(southEastObstacles));
+        }
 
+        return totalAttackPositions;
+
+    }
+
+    public static int computeObstacleImpact(int n, int TAP, int r_q, int c_q, int r_o, int c_o) {
+
+        if (r_q == r_o) {
+            if (c_o < c_q) {
+                // If Obstacle is to the left of the Queen
+                TAP = TAP - c_o;
+            } else {
+                // The Obstacle is to the right of the Queen
+                TAP = TAP - (n - c_o + 1);
+            }
+
+        } else if (c_q == c_o) {
+            if (r_o < r_q) {
+                // If Obstacle is to the South of the Queen
+                TAP = TAP - r_o;
+            } else {
+                // The Obstacle is to the North of the Queen
+                TAP = TAP - (n - r_o + 1);
+            }
+        }
+        // If Obstacle falls on the left diagonal \ path of the Queen
+        // If col + row values are equal then the positions fall on left diagonal
+        else if ((r_o + c_o) == (r_q + c_q)) {
+            // If obstacle is on the second quadrant to the Queen
+            if (r_o > r_q && c_o < c_q) {
+                // Reduce blocks along Second Quadrant + row,- col from Obstacle to End of Board
+                if ((n - r_o) <= (c_o - 1)) {
+                    TAP = TAP - (n - r_o + 1);
+                } else {
+                    TAP = TAP - c_o;
                 }
 
             }
+            // If obstacle is on the fourth quadrant to the Queen
+            else if (r_o < r_q && c_o > c_q) {
+                // Reduce blocks along Fourth Quadrant - row,+ col from Obstacle to End of Board
+                if ((r_o - 1) <= (n - c_o)) {
+                    TAP = TAP - r_o;
+                } else {
+                    TAP = TAP - (n - c_o + 1);
+                }
+            }
         }
+        // If Obstacle falls on the right diagonal / path of the Queen
+        // If col - row values are equal then the positions fall on right diagonal
+        else if ((c_o - r_o) == (c_q - r_q)) {
+            // If Obstacle is on the First Quadrant of Queen
+            if (r_o > r_q && c_o > c_q) {
+                // Reduce blocks along on First Quadrant + row, +col from Obstacle to End of
+                // Board
+                if ((n - r_o) <= (n - c_o)) {
+                    TAP = TAP - (n - r_o + 1);
+                } else {
+                    TAP = TAP - (n - c_o + 1);
+                }
+            }
+            // If Obstacle is on the Third Quadrant of Queen
+            else if (r_o < r_q && c_o < c_q) {
+                // Reduce blocks along third Quadrant - row, - col from Obstacle to End of Board
+                if ((r_o - 1) <= (c_o)) {
+                    TAP = TAP - r_o;
+                } else {
+                    TAP = TAP - c_o;
+                }
+            }
 
+        }
         // **** Reduce number of blocks from Obstacle to End of board from
-        // totalAttackPositions ****
+        // TAP ****
 
-        return totalAttackPositions;
+        return TAP;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
