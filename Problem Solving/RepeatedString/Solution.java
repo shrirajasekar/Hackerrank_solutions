@@ -10,27 +10,27 @@ public class Solution {
 
     // Complete the repeatedString function below.
     static long repeatedString(String s, long n) {
-        // If n < string length - pass substring to count fn
+        // If n <= string length - pass substring to count fn
         long result = 0;
         long rep = 0;
         long end = s.length();
         if (n <= s.length()) {
             end = (int) n;
             result = countA(s.substring(0, (int) end));
-        } else {
+        } 
+        // If n > string length -
+        // Count number of a in one instance of the string
+        // Divide String length by n - Find number of repetition
+        // Find remainder of string length by n - Pass Substring of size remainder from
+        // start
+        // to count function
+        else {
             rep = n / s.length();
             end = n % s.length();
             rep = rep * countA(s);
             result = rep + countA(s.substring(0, (int) end));
         }
-        // If n > string length -
-        // Count number of a in one instance of the string
-        // Divide String length by n - Find number of repetition
-
-        // Find remainder of string length by n - Pass Substring of size remainder from
-        // start
-        // to count function
-
+        
         return result;
     }
 
