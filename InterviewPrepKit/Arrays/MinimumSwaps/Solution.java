@@ -1,4 +1,4 @@
-package Arrays.MinimumSwaps;
+package InterviewPrepKit.Arrays.MinimumSwaps;
 
 import java.io.*;
 import java.math.*;

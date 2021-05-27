@@ -1,4 +1,4 @@
-package Arrays.LeftRotationArray;
+package InterviewPrepKit.Arrays.LeftRotationArray;
 
 import java.io.*;
 import java.math.*;

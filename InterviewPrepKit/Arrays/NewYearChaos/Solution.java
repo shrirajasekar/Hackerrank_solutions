@@ -1,4 +1,4 @@
-package Arrays.NewYearChaos;
+package InterviewPrepKit.Arrays.NewYearChaos;
 
 import java.io.*;
 import java.math.*;
@@ -21,28 +21,24 @@ class Result {
    */
 
   public static void minimumBribes(List<Integer> q) {
-    boolean chaotic = false;
-    int bribes = 0;
-    for (int i = 0; i < q.size(); i++) {
-      if ((q.get(i) - (i + 1)) > 2) {
-        chaotic = true;
-      }
-      for (int j = 0; j < i; j++) {
-        if (q.get(j) > q.get(i)) {
-          bribes++;
+    // Write your code here
+    int flag = 0;
+    int diff = 0;
+    for (int i = q.size(); i >= 0; i--) {
+      if (q.get(i) < q.get(i - 1)) {
+        diff = diff + q.get(i - 1) - q.get(i);
+        if ((q.get(i - 1) - q.get(i)) > 2) {
+          flag = 1;
+          break;
         }
       }
     }
-    if (chaotic) {
-      System.out.println("Too chaotic");
-    } else {
-      System.out.println(bribes);
-    }
+    System.out.println(flag == 1 ? "Too Chaotic" : diff);
   }
 
 }
 
-public class SolutionCorrect {
+public class Solution {
   public static void main(String[] args) throws IOException {
     // BufferedReader bufferedReader = new BufferedReader(new
     // InputStreamReader(System.in));
