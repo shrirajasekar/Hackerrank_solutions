@@ -1,0 +1,10 @@
+{
+  "java.project.sourcePaths": [
+    "Misc",
+    "InterviewPrepKit/SimpleMailingSystem",
+    "InterviewPrepKit/DynamicProgramming/RodCutting/Naive",
+    "InterviewPrepKit/Challenge",
+    "InterviewPrepKit/Basics",
+    "InterviewPrepKit/Wipro"
+  ]
+}
